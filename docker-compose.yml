@@ -16,4 +16,9 @@ services:
       - '$GITLAB_HOME/config:/etc/gitlab'
       - '$GITLAB_HOME/logs:/var/log/gitlab'
       - '$GITLAB_HOME/data:/var/opt/gitlab'
+      - '${GITLAB_BACKUP_DIR}:/mnt/gitlab/backups'
+      - '${GITLAB_INIT_TASK_DIR}:/init_tasks'
+      - "${GITLAB_CROND_DIR}/${GITLAB_BACKUP_CRON}:/etc/cron.d/${GITLAB_BACKUP_CRON}"
+      - "${GITLAB_CRON_TASKS_DIR}:/etc/cron_tasks"
     shm_size: '256m'
+    command: bash -c "for task in /init_tasks/*;do $$task ; done ; /assets/init-container"
