@@ -8,7 +8,7 @@ export GITLAB_CROND_DIR ?= ${GITLAB_CRON_DIR}/crond
 export GITLAB_CRON_TASKS_DIR ?= ${GITLAB_CRON_DIR}/cron-tasks
 export GITLAB_BACKUP_CRON ?= gitlab_backup
 
-.PHONY: env-check env-print gitlab-up gitlab-down gitlab-backup gitlab-recover help
+.PHONY: env-check env-print gitlab-up gitlab-down gitlab-down-volume gitlab-backup gitlab-recover help
 
 env-check:
 	@if [ ! -d "${GITLAB_HOME}" ]; then \
@@ -66,6 +66,9 @@ gitlab-up:env-print env-check
 
 gitlab-down:
 	docker compose down
+
+gitlab-down-volume:env-print env-check
+	docker compose down --volumes
 
 help:
 	@echo ""

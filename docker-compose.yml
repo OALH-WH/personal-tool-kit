@@ -21,4 +21,4 @@ services:
       - "${GITLAB_CROND_DIR}/${GITLAB_BACKUP_CRON}:/etc/cron.d/${GITLAB_BACKUP_CRON}"
       - "${GITLAB_CRON_TASKS_DIR}:/etc/cron_tasks"
     shm_size: '256m'
-    command: bash -c "for task in /init_tasks/*;do $$task ; done ; /assets/init-container"
+    command: bash -c "for task in /init_tasks/*;do $$task ; done ; /assets/wrapper"
