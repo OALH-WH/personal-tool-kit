@@ -5,6 +5,7 @@ gitlab_config_dir=/etc/gitlab
 
 gitlab_rb=gitlab.rb
 gitlab_secrets=gitlab-secrets.json
+gitlab_tag=restored
 
 gitlab_back=""
 suffix_pattern="_gitlab_backup.tar"
@@ -24,10 +25,11 @@ done
 
 
 if [ -z "$1" ]; then
-    if [ "${GITLAB_OMNIBUS_CONFIG}"x == "1"x ]; then
+    if [ "${GITLAB_OMNIBUS_CONFIG}"x == "1"x -a ! -f ${gitlab_restore_dir}/${gitlab_tag} ]; then
         gitlab-backup restore BACKUP=${gitlab_back} force=yes && \
-            cp ${gitlab_restore_dir}/${gitlab_rb} ${gitlab_config_dir}/ && \
-            cp ${gitlab_restore_dir}/${gitlab_secrets} ${gitlab_config_dir}
+        cp ${gitlab_restore_dir}/${gitlab_rb} ${gitlab_config_dir}/ && \
+        cp ${gitlab_restore_dir}/${gitlab_secrets} ${gitlab_config_dir} && \
+        touch ${gitlab_restore_dir}/${gitlab_tag}
     fi
 else
     case $1 in
