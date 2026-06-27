@@ -25,9 +25,9 @@ done
 
 if [ -z "$1" ]; then
     if [ "${GITLAB_OMNIBUS_CONFIG}"x == "1"x ]; then
-    gitlab-backup restore BACKUP=${gitlab_back} force=yes && \
-        cp ${gitlab_restore_dir}/${gitlab_rb} ${gitlab_config_dir}/ && \
-        cp ${gitlab_restore_dir}/${gitlab_secrets} ${gitlab_config_dir}
+        gitlab-backup restore BACKUP=${gitlab_back} force=yes && \
+            cp ${gitlab_restore_dir}/${gitlab_rb} ${gitlab_config_dir}/ && \
+            cp ${gitlab_restore_dir}/${gitlab_secrets} ${gitlab_config_dir}
     fi
 else
     case $1 in
