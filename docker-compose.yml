@@ -9,6 +9,42 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://gitlab.example.com:8929'
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
+
+        # ---------- 内存关键优化 ----------
+        # 减少Puma (Web服务器) 的Worker数量[reference:5]
+        puma['worker_processes'] = 2
+        
+        # 限制单个Puma Worker的最大内存 (MB)，超出会自动重启
+        puma['per_worker_max_memory_mb'] = 1024
+        
+        # 减少Puma的线程数
+        puma['min_threads'] = 1
+        puma['max_threads'] = 4
+        
+        # 减少Sidekiq (后台任务) 的并发数[reference:6]
+        sidekiq['concurrency'] = 10
+        
+        # 限制PostgreSQL的缓存大小 (建议设为总内存的25%以下)
+        postgresql['shared_buffers'] = "256MB"
+        
+        # 限制Redis最大内存
+        redis['maxmemory'] = "512MB"
+        
+        # ---------- 关闭非必需服务以释放内存 ----------
+        # 关闭内置的监控服务 (Prometheus, Grafana等)
+        prometheus_monitoring['enable'] = false
+        grafana['enable'] = false
+        
+        # 关闭其他可能用不到的组件
+        alertmanager['enable'] = false
+        gitlab_exporter['enable'] = false
+        node_exporter['enable'] = false
+        redis_exporter['enable'] = false
+        postgres_exporter['enable'] = false
+
+        # ---------- 其他优化 ----------
+        # 减少数据库连接池大小
+        gitlab_rails['db_pool'] = 10
     ports:
       - '8929:8929'
       - '443:443'
