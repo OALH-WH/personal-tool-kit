@@ -1,10 +1,16 @@
 #!/bin/bash
 
 cron_dir=/var/spool/cron/crontabs
+crond_dir=/etc/cron.d
 
 if [ ! -d "${cron_dir}" ]; then
     mkdir -p ${cron_dir}
     touch ${cron_dir}/root
 fi
 
+for cron in ${crond_dir}/*; do
+    chmod 644 ${cron}
+    chown root:root ${cron}
+done
 #crond -b -c ${cron_dir}
+nohup go-crond --include=/etc/cron.d &

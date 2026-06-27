@@ -3,10 +3,10 @@
 gitlab_backup_dir=/var/opt/gitlab/backups
 gitlab_backup_dump_dir=/mnt/gitlab/backups
 
-gitlab-backup craete
+gitlab-backup create
 
 # sync
-cp -r ${gitlab_backup_dir} ${gitlab_backup_dump_dir}
+cp -r ${gitlab_backup_dir}/* ${gitlab_backup_dump_dir}
 
 
 
