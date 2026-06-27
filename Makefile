@@ -1,5 +1,6 @@
 export GITLAB_HOME ?= /home/${USER}
 export GITLAB_BACKUP_DIR ?= /mnt/u30pro/gitlab/backups
+export GITLAB_RESTORE_DIR ?= /mnt/u30pro/gitlab/restores
 
 export GITLAB_INIT_TASK_DIR ?= ${PWD}/init-tasks
 
@@ -18,6 +19,11 @@ env-check:
 
 	@if [ ! -d "${GITLAB_BACKUP_DIR}" ]; then \
 		echo "${GITLAB_BACKUP_DIR} is not a directory"; \
+		exit 1; \
+	fi
+
+	@if [ ! -d "${GITLAB_RESTORE_DIR}" ]; then \
+		echo "${GITLAB_RESTORE_DIR} is not a directory"; \
 		exit 1; \
 	fi
 
@@ -51,6 +57,9 @@ env-check:
 
 env-print:
 	@echo "GITLAB_HOME is set to $(GITLAB_HOME)"
+
+	@echo "GITLAB_BACKUP_DIR is set to $(GITLAB_BACKUP_DIR)"
+	@echo "GITLAB_RESTORE_DIR is set to $(GITLAB_RESTORE_DIR)"
 
 	@echo "GITLAB_INIT_TASK_DIR is set to $(GITLAB_INIT_TASK_DIR)"
 

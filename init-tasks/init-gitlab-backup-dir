@@ -2,9 +2,10 @@
 
 gitlab_backup_dir=/var/opt/gitlab/backups
 gitlab_backup_dump_dir=/mnt/gitlab/backups
+gitlab_restore_dir=/mnt/gitlab/restores
 
 rm -fr ${gitlab_backup_dir}
 
-cp -r ${gitlab_backup_dump_dir} ${gitlab_backup_dir}
+#cp -r ${gitlab_backup_dump_dir} ${gitlab_backup_dir}
 
 chown -R git:git ${gitlab_backup_dir}

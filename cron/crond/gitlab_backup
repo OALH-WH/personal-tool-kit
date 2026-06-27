@@ -1,1 +1,1 @@
-10 * * * * root bash -c "/etc/cron_tasks/gitlab_backup.sh"
+0 5 * * * root bash -c "/etc/cron_tasks/gitlab_backup.sh"
