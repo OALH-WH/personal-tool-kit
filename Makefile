@@ -1,6 +1,7 @@
 export GITLAB_HOME ?= /home/${USER}
 export GITLAB_BACKUP_DIR ?= /mnt/u30pro/gitlab/backups
 export GITLAB_RESTORE_DIR ?= /mnt/u30pro/gitlab/restores
+export GITLAB_RESTORE_INIT ?= 0
 
 export GITLAB_INIT_TASK_DIR ?= ${PWD}/init-tasks
 
@@ -60,6 +61,7 @@ env-print:
 
 	@echo "GITLAB_BACKUP_DIR is set to $(GITLAB_BACKUP_DIR)"
 	@echo "GITLAB_RESTORE_DIR is set to $(GITLAB_RESTORE_DIR)"
+	@echo "GITLAB_RESTORE_INIT is set to $(GITLAB_RESTORE_INIT)"
 
 	@echo "GITLAB_INIT_TASK_DIR is set to $(GITLAB_INIT_TASK_DIR)"
 
@@ -80,4 +82,4 @@ gitlab-down-volume:env-print env-check
 	docker compose down --volumes
 
 help:
-	@echo ""
+	@echo "GITLAB_RESTORE_INIT=1 restore gitlab data"

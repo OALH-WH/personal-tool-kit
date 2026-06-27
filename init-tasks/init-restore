@@ -1,0 +1,44 @@
+#!/bin/bash
+
+gitlab_restore_dir=/mnt/gitlab/restores
+gitlab_config_dir=/etc/gitlab
+
+gitlab_rb=gitlab.rb
+gitlab_secrets=gitlab-secrets.json
+
+gitlab_back=""
+suffix_pattern="_gitlab_backup.tar"
+
+for fd in ${gitlab_restore_dir}/*; do
+    gitlab_back=$(echo $fd | awk -F${suffix_pattern} '{print $1}')
+    if [ -f "${gitlab_back}" ]; then
+        echo " ${gitlab_back} already exists"
+        continue
+    fi
+
+    gitlab_back=$(basename ${gitlab_back})
+    echo " ${gitlab_back} restore from ${fd}"
+    break
+done 
+
+
+
+if [ -z "$1" ]; then
+    if [ "${GITLAB_OMNIBUS_CONFIG}"x == "1"x ]; then
+    gitlab-backup restore BACKUP=${gitlab_back} force=yes && \
+        cp ${gitlab_restore_dir}/${gitlab_rb} ${gitlab_config_dir}/ && \
+        cp ${gitlab_restore_dir}/${gitlab_secrets} ${gitlab_config_dir}
+    fi
+else
+    case $1 in
+        restore) 
+            gitlab-ctl reconfigure && gitlab-ctl restart
+            break
+            ;;
+        **)
+            echo "Usage: $0 [restore]"
+            break
+            ;;
+    esac
+fi
+
