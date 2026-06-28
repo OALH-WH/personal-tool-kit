@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# change time zone
+
+TIME_ZONE_COMPILE=zic
+CUSTOM_TIME_ZONE_SRC=/var/custom_time_zone
+CUSTOM_TIME_ZONE_DST=Custom/MyTimezone 
+
+if [ ! -f $CUSTOM_TIME_ZONE_SRC ]; then
+    touch $CUSTOM_TIME_ZONE_SRC
+fi
+
+> $CUSTOM_TIME_ZONE_SRC
+
+cat << EOF >  $CUSTOM_TIME_ZONE_SRC
+# Zone  时区名称            GMT偏移量    夏令时规则  时区缩写
+Zone    $CUSTOM_TIME_ZONE_DST  8:00         -           MYT
+EOF
+
+$TIME_ZONE_COMPILE $CUSTOM_TIME_ZONE_SRC
+
+ln -sf /usr/share/zoneinfo/$CUSTOM_TIME_ZONE_DST /etc/localtime
