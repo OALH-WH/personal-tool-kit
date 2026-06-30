@@ -58,6 +58,7 @@ services:
       - '${GITLAB_INIT_TASK_DIR}:/init_tasks'
       - "${GITLAB_CROND_DIR}/${GITLAB_BACKUP_CRON}:/etc/cron.d/${GITLAB_BACKUP_CRON}"
       - "${GITLAB_CRON_TASKS_DIR}:/etc/cron_tasks"
+      - "${GITLAB_ENV_DIR}:/env"
     shm_size: '256m'
     mem_limit: '4g'
     memswap_limit: '4g'

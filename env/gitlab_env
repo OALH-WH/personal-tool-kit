@@ -1,0 +1,11 @@
+#!/bin/bash
+export gitlab_backup_dir=/var/opt/gitlab/backups
+export gitlab_backup_dump_dir=/mnt/gitlab/backups
+export gitlab_config_dir=/etc/gitlab
+export gitlab_restore_dir=/mnt/gitlab/restores
+export gitlab_rb=gitlab.rb
+export gitlab_secrets=gitlab-secrets.json
+export gitlab_tag=restored
+export 
+export gitlab_back=""
+export suffix_pattern="_gitlab_backup.tar"

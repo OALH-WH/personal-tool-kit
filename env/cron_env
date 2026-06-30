@@ -1,0 +1,3 @@
+#!/bin/bash
+export cron_dir=/var/spool/cron/crontabs
+export crond_dir=/etc/cron.d

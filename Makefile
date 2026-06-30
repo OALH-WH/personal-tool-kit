@@ -10,6 +10,8 @@ export GITLAB_CROND_DIR ?= ${GITLAB_CRON_DIR}/crond
 export GITLAB_CRON_TASKS_DIR ?= ${GITLAB_CRON_DIR}/cron-tasks
 export GITLAB_BACKUP_CRON ?= gitlab_backup
 
+export GITLAB_ENV_DIR ?= ${PWD}/env
+
 .PHONY: env-check env-print gitlab-up gitlab-down gitlab-down-volume gitlab-backup gitlab-recover help
 
 env-check:
@@ -53,6 +55,16 @@ env-check:
 		done; \
 	fi
 
+	@if [ ! -d "${GITLAB_ENV_DIR}" ]; then \
+		echo "${GITLAB_ENV_DIR} is not a directory"; \
+		exit 1; \
+	else \
+		for env in ${GITLAB_ENV_DIR}/*; do \
+			echo "$${env} change to executable"; \
+			sudo chmod +x $${env}; \
+		done; \
+	fi
+
 	@echo "------------------------------------------------------------"
 
 
@@ -67,6 +79,8 @@ env-print:
 
 	@echo "GITLAB_CROND is set to $(GITLAB_CROND_DIR)"
 	@echo "GITLAB_BACKUP_DIR is set to $(GITLAB_CRON_TASKS_DIR)"
+
+	@echo "GITLAB_ENV_DIR is set to ${GITLAB_ENV_DIR}"
 
 	@echo "------------------------------------------------------------"
 

@@ -1,0 +1,4 @@
+#!/bin/bash
+export TIME_ZONE_COMPILE=zic
+export CUSTOM_TIME_ZONE_SRC=/var/custom_time_zone
+export CUSTOM_TIME_ZONE_DST=Custom/MyTimezone 
