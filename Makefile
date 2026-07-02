@@ -1,6 +1,6 @@
 export GITLAB_HOME ?= /home/${USER}
-export GITLAB_BACKUP_DIR ?= /mnt/u30pro/gitlab/backups
-export GITLAB_RESTORE_DIR ?= /mnt/u30pro/gitlab/restores
+export GITLAB_BACKUP_DIR ?= /mnt/usb-64/gitlab/backups
+export GITLAB_RESTORE_DIR ?= /mnt/usb-64/gitlab/restores
 export GITLAB_RESTORE_INIT ?= 0
 
 export GITLAB_INIT_TASK_DIR ?= ${PWD}/init-tasks

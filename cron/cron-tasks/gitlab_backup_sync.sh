@@ -6,10 +6,23 @@ source /env/gitlab_env
 for backup in ${gitlab_backup_dir}/*; do
     hasDump=0
     for dump in ${gitlab_backup_dump_dir}/*; do
-        if [ "$(basename ${backup})" == "$(basename ${dump})" -a "$(md5sum ${backup})" == "$(md5sum ${dump})" ]; then
-            echo "skip ${backup}"
-            hasDump=1
-            break
+        
+
+        echo "----------------------------------"
+        echo -e "compare file:\n  ${backup}\n  ${dump}"
+        
+        if [ "$(basename ${backup})" == "$(basename ${dump})" ]; then
+            backup_md5sum=$(md5sum ${backup} | awk '{print $1}')
+            dump_md5sum=$(md5sum ${dump} | awk '{print $1}')
+            echo "md5sum ${backup}: $backup_md5sum"
+            echo "md5sum ${dump}: $dump_md5sum"
+            if [ "$backup_md5sum" == "$dump_md5sum" ]; then
+                echo "skip ${backup}"
+                hasDump=1
+                break
+            fi
+            echo "file exists and different, rm ${dump}"
+            rm -v ${dump}
         fi
     done
 
