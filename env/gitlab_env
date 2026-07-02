@@ -6,6 +6,4 @@ export gitlab_restore_dir=/mnt/gitlab/restores
 export gitlab_rb=gitlab.rb
 export gitlab_secrets=gitlab-secrets.json
 export gitlab_tag=restored
-export 
-export gitlab_back=""
-export suffix_pattern="_gitlab_backup.tar"
+export suffix_pattern="gitlab_backup.tar"

@@ -8,7 +8,6 @@ export GITLAB_INIT_TASK_DIR ?= ${PWD}/init-tasks
 export GITLAB_CRON_DIR ?= ${PWD}/cron
 export GITLAB_CROND_DIR ?= ${GITLAB_CRON_DIR}/crond
 export GITLAB_CRON_TASKS_DIR ?= ${GITLAB_CRON_DIR}/cron-tasks
-export GITLAB_BACKUP_CRON ?= gitlab_backup
 
 export GITLAB_ENV_DIR ?= ${PWD}/env
 
@@ -36,7 +35,7 @@ env-check:
 	else \
 		for task in ${GITLAB_INIT_TASK_DIR}/*; do \
 			echo "$${task} change to executable"; \
-			sudo chmod +x $${task}; \
+			sudo chmod 777 $${task}; \
 		done; \
 	fi
 
@@ -51,7 +50,7 @@ env-check:
 	else \
 		for task in ${GITLAB_CRON_TASKS_DIR}/*; do \
 			echo "$${task} change to executable"; \
-			sudo chmod +x $${task}; \
+			sudo chmod 777 $${task}; \
 		done; \
 	fi
 
@@ -61,7 +60,7 @@ env-check:
 	else \
 		for env in ${GITLAB_ENV_DIR}/*; do \
 			echo "$${env} change to executable"; \
-			sudo chmod +x $${env}; \
+			sudo chmod 777 $${env}; \
 		done; \
 	fi
 

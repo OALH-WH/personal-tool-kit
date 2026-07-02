@@ -56,7 +56,7 @@ services:
       - '${GITLAB_BACKUP_DIR}:/mnt/gitlab/backups'
       - '${GITLAB_RESTORE_DIR}:/mnt/gitlab/restores'
       - '${GITLAB_INIT_TASK_DIR}:/init_tasks'
-      - "${GITLAB_CROND_DIR}/${GITLAB_BACKUP_CRON}:/etc/cron.d/${GITLAB_BACKUP_CRON}"
+      - "${GITLAB_CROND_DIR}:/etc/cron.d"
       - "${GITLAB_CRON_TASKS_DIR}:/etc/cron_tasks"
       - "${GITLAB_ENV_DIR}:/env"
     shm_size: '256m'
