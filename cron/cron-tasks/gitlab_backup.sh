@@ -3,7 +3,7 @@
 source /env/gitlab_env
 
 
-gitlab_version=%(cat /opt/gitlab/embedded/service/gitlab-rails/VERSION)
+gitlab_version=$(cat /opt/gitlab/embedded/service/gitlab-rails/VERSION)
 gitlab_backup_prefix=$(date +%s_%Y_%m_%d)_${gitlab_version}
 gitlab_backup_file=${gitlab_backup_prefix}_${suffix_pattern}
 

@@ -14,7 +14,6 @@ for backup in ${gitlab_backup_dir}/*; do
     done
 
     if [ ${hasDump} -eq 0 ]; then
-        echo " ${backup} copy to ${gitlab_backup_dump_dir}"
         cp -v ${backup} ${gitlab_backup_dump_dir}/
     fi
 done
