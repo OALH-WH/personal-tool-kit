@@ -3,11 +3,11 @@ services:
     image: gitlab/gitlab-ce:16.5.3-ce.0 
     container_name: gitlab
     restart: always
-    hostname: 'gitlab.example.com'
+    hostname: 'oalh.dpdns.org'
     environment:
       GITLAB_RESTORE_INIT: ${GITLAB_RESTORE_INIT}
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://gitlab.example.com:8929'
+        external_url 'https://oalh.dpdns.org:443'
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
 
         # ---------- 内存关键优化 ----------
