@@ -7,8 +7,25 @@ services:
     environment:
       GITLAB_RESTORE_INIT: ${GITLAB_RESTORE_INIT}
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://oalh.dpdns.org:443'
+        external_url 'https://$GITLAB_DOMAIN'       # 保持 HTTPS，用于生成外部链接
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
+
+        # 关闭所有重定向
+        nginx['redirect_http_to_https'] = false
+        registry_nginx['redirect_http_to_https'] = false
+        mattermost_nginx['redirect_http_to_https'] = false
+
+        # Nginx 监听设置
+        nginx['listen_port'] = 8929
+        nginx['listen_https'] = false
+
+        # 修改 proxy_set_headers，动态使用请求中的 X-Forwarded-Proto
+        nginx['proxy_set_headers'] = {
+          "Host" => "$GITLAB_DOMAIN",
+          "X-Forwarded-Proto" => "$$http_x_forwarded_proto",   # 从 Cloudflare 传递的头部获取
+          "X-Forwarded-Ssl"   => "off"                        # 取消硬编码的 on
+        }
+        
 
         # ---------- 内存关键优化 ----------
         # 减少Puma (Web服务器) 的Worker数量[reference:5]

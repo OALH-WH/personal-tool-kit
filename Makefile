@@ -11,6 +11,8 @@ export GITLAB_CRON_TASKS_DIR ?= ${GITLAB_CRON_DIR}/cron-tasks
 
 export GITLAB_ENV_DIR ?= ${PWD}/env
 
+export GITLAB_DOMAIN ?= oalh.dpdns.org
+
 .PHONY: env-check env-print gitlab-up gitlab-down gitlab-down-volume gitlab-backup gitlab-recover help
 
 env-check:
@@ -80,6 +82,8 @@ env-print:
 	@echo "GITLAB_BACKUP_DIR is set to $(GITLAB_CRON_TASKS_DIR)"
 
 	@echo "GITLAB_ENV_DIR is set to ${GITLAB_ENV_DIR}"
+
+	@echo "GITLAB_DOMAIN is set to ${GITLAB_DOMAIN}"
 
 	@echo "------------------------------------------------------------"
 
