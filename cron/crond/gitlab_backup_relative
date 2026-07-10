@@ -1,5 +1,5 @@
 50 4 * * * root bash -c "/etc/cron_tasks/gitlab_backup.sh"
-0,10,20,30 5 * * * root bash -c "/etc/cron_tasks/gitlab_backup_sync.sh"
-0 6 * * * root bash -c "/etc/cron_tasks/gitlab_backup_clear.sh"
+*/15 * * * * root bash -c "/etc/cron_tasks/gitlab_backup_sync.sh"
+*/10 * * * * root bash -c "/etc/cron_tasks/gitlab_backup_clear.sh"
 
 
