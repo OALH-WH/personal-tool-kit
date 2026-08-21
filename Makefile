@@ -1,6 +1,6 @@
 export GITLAB_HOME ?= /home/${USER}
-export GITLAB_BACKUP_DIR ?= /mnt/usb-64/gitlab/backups
-export GITLAB_RESTORE_DIR ?= /mnt/usb-64/gitlab/restores
+export GITLAB_BACKUP_DIR ?= /mnt/usb64/gitlab/backups
+export GITLAB_RESTORE_DIR ?= /mnt/usb64/gitlab/restores
 export GITLAB_RESTORE_INIT ?= 0
 
 export GITLAB_INIT_TASK_DIR ?= ${PWD}/init-tasks
@@ -28,6 +28,11 @@ env-check:
 
 	@if [ ! -d "${GITLAB_RESTORE_DIR}" ]; then \
 		echo "${GITLAB_RESTORE_DIR} is not a directory"; \
+		exit 1; \
+	fi
+
+	@if [ ! -z ${GITLAB_RESTORE_FILE} -a ! -f "${GITLAB_BACKUP_DIR}/${GITLAB_RESTORE_FILE}" ]; then \
+		echo "${GITLAB_BACKUP_DIR}/${GITLAB_RESTORE_FILE} is not a file"; \
 		exit 1; \
 	fi
 
@@ -75,6 +80,7 @@ env-print:
 	@echo "GITLAB_BACKUP_DIR is set to $(GITLAB_BACKUP_DIR)"
 	@echo "GITLAB_RESTORE_DIR is set to $(GITLAB_RESTORE_DIR)"
 	@echo "GITLAB_RESTORE_INIT is set to $(GITLAB_RESTORE_INIT)"
+	@echo "GITLAB_RESTORE_FILE is set to $(GITLAB_RESTORE_FILE)"
 
 	@echo "GITLAB_INIT_TASK_DIR is set to $(GITLAB_INIT_TASK_DIR)"
 
@@ -98,5 +104,8 @@ gitlab-down:
 gitlab-down-volume:env-print env-check
 	docker compose down --volumes
 
+gitlab-restart:gitlab-down gitlab-up
+	@echo "gitlab restart done"
+
 help:
-	@echo "GITLAB_RESTORE_INIT=1 restore gitlab data"
+	@echo "GITLAB_RESTORE_INIT=1 GITLAB_RESTORE_FILE=backup.tar restore gitlab data"

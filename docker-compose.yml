@@ -6,6 +6,7 @@ services:
     hostname: 'oalh.dpdns.org'
     environment:
       GITLAB_RESTORE_INIT: ${GITLAB_RESTORE_INIT}
+      GITLAB_RESTORE_FILE: ${GITLAB_RESTORE_FILE}
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'https://$GITLAB_DOMAIN'       # 保持 HTTPS，用于生成外部链接
         gitlab_rails['gitlab_shell_ssh_port'] = 2424

@@ -1,39 +1,39 @@
 #!/bin/bash
 
+source /env/gitlab_env
+
 gitlab_restore_dir=/mnt/gitlab/restores
 gitlab_config_dir=/etc/gitlab
 
 gitlab_rb=gitlab.rb
 gitlab_secrets=gitlab-secrets.json
+
+# 文件删了才能够恢复备份
 gitlab_tag=restored
 
-gitlab_back=""
 suffix_pattern="_gitlab_backup.tar"
 
-for fd in ${gitlab_restore_dir}/*; do
-    gitlab_back=$(echo $fd | awk -F${suffix_pattern} '{print $1}')
-    if [ -f "${gitlab_back}" ]; then
-        echo " ${gitlab_back} already exists"
-        continue
+
+restore_func() {
+    if [ "${GITLAB_RESTORE_INIT}"x == "1"x -a ! -f ${gitlab_restore_dir}/${gitlab_tag} ]; then
+        gitlab_back=$(echo $GITLAB_RESTORE_FILE | awk -F${suffix_pattern} '{print $1}')
+        echo "Restoring GitLab backup: ${gitlab_back}${suffix_pattern}"
+
+        rsync -ahW --progress --partial ${gitlab_backup_dump_dir}/${gitlab_back}${suffix_pattern} ${gitlab_backup_dir}/ && \
+        gitlab-backup restore BACKUP=${gitlab_back} force=yes && \
+        rsync -ahW --progress --partial ${gitlab_backup_dump_dir}/${gitlab_back}_${gitlab_rb} ${gitlab_config_dir}/${gitlab_rb} && \
+        rsync -ahW --progress --partial ${gitlab_backup_dump_dir}/${gitlab_back}_${gitlab_secrets} ${gitlab_config_dir}/${gitlab_secrets} && \
+        touch ${gitlab_restore_dir}/${gitlab_tag}
     fi
-
-    gitlab_back=$(basename ${gitlab_back})
-    echo " ${gitlab_back} restore from ${fd}"
-    break
-done 
-
+}
 
 
 if [ -z "$1" ]; then
-    if [ "${GITLAB_OMNIBUS_CONFIG}"x == "1"x -a ! -f ${gitlab_restore_dir}/${gitlab_tag} ]; then
-        gitlab-backup restore BACKUP=${gitlab_back} force=yes && \
-        cp ${gitlab_restore_dir}/${gitlab_rb} ${gitlab_config_dir}/ && \
-        cp ${gitlab_restore_dir}/${gitlab_secrets} ${gitlab_config_dir} && \
-        touch ${gitlab_restore_dir}/${gitlab_tag}
-    fi
+    restore_func
 else
     case $1 in
         restore) 
+            restore_func
             gitlab-ctl reconfigure && gitlab-ctl restart
             break
             ;;
