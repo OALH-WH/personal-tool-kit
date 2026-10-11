@@ -74,7 +74,6 @@ services:
         gitlab_rails['db_pool'] = 10
     ports:
       - '8929:8929'
-      - '443:443'
       - '2424:22'
     volumes:
       - '$GITLAB_HOME/config:/etc/gitlab'
