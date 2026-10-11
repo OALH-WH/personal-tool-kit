@@ -21,12 +21,12 @@ services:
         nginx['listen_https'] = false
 
         # 修改 proxy_set_headers，动态使用请求中的 X-Forwarded-Proto
-        gitlab_rails['nginx']['proxy_set_headers'] = {
-          "Host" => "$http_host",
-          "X-Forwarded-For" => "$proxy_add_x_forwarded_for",
-          "X-Forwarded-Proto" => "$http_x_forwarded_proto",
-          "X-Forwarded-Port" => "$http_x_forwarded_port"
-        }
+        gitlab_rails['nginx']['proxy_set_headers'] = <<'EOS'
+          "Host" => "$$http_host",
+          "X-Forwarded-For" => "$$proxy_add_x_forwarded_for",
+          "X-Forwarded-Proto" => "$$http_x_forwarded_proto",
+          "X-Forwarded-Port" => "$$http_x_forwarded_port"
+        EOS
 
         nginx['custom_gitlab_server_config'] = <<'EOS'
           set $$real_x_forwarded_proto $$http_x_forwarded_proto;

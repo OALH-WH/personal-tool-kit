@@ -2,6 +2,7 @@ export GITLAB_HOME ?= /home/${USER}
 export GITLAB_BACKUP_DIR ?= /mnt/usb64/gitlab/backups
 export GITLAB_RESTORE_DIR ?= /mnt/usb64/gitlab/restores
 export GITLAB_RESTORE_INIT ?= 0
+export GITLAB_RESTORE_FILE=backup.tar
 
 export GITLAB_INIT_TASK_DIR ?= ${PWD}/init-tasks
 
@@ -33,7 +34,7 @@ env-check:
 
 	@if [ ! -z ${GITLAB_RESTORE_FILE} -a ! -f "${GITLAB_BACKUP_DIR}/${GITLAB_RESTORE_FILE}" ]; then \
 		echo "${GITLAB_BACKUP_DIR}/${GITLAB_RESTORE_FILE} is not a file"; \
-		exit 1; \
+#		exit 1; \
 	fi
 
 	@if [ ! -d "${GITLAB_INIT_TASK_DIR}" ]; then \
