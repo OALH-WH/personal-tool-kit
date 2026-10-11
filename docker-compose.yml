@@ -8,7 +8,7 @@ services:
       GITLAB_RESTORE_INIT: ${GITLAB_RESTORE_INIT}
       GITLAB_RESTORE_FILE: ${GITLAB_RESTORE_FILE}
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://$GITLAB_DOMAIN'       # 保持 HTTPS，用于生成外部链接
+        external_url 'http://$GITLAB_DOMAIN'       # 保持 HTTPS，用于生成外部链接
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
 
         # 关闭所有重定向
@@ -27,6 +27,14 @@ services:
           "X-Forwarded-Proto" => "$http_x_forwarded_proto",
           "X-Forwarded-Port" => "$http_x_forwarded_port"
         }
+
+        nginx['custom_gitlab_server_config'] = <<'EOS'
+          set $$real_x_forwarded_proto $$http_x_forwarded_proto;
+          if ($$real_x_forwarded_proto = '') {
+              set $$real_x_forwarded_proto $$scheme;
+          }
+          proxy_set_header X-Forwarded-Proto $$real_x_forwarded_proto;
+        EOS
         
 
         # ---------- 内存关键优化 ----------
